@@ -1,5 +1,11 @@
 # Local-LLMs
 
+## 🛠️ Paso 0: Preparar el terreno (Dependencias)
+Antes de nada, asegúrate de tener las herramientas básicas. Copia y pega esto:
+```bash
+sudo apt update && sudo apt install -y curl wget gpg ca-certificates
+```
+
 ## 🛠️ Paso 1: Instalación de Ollama (El Motor)
 Instala Ollama con un solo comando:
 ```bash
@@ -16,23 +22,34 @@ ollama pull deepseek-coder-v2:16b-lite-instruct-q4_K_M
 ```
 
 ## 🌐 Paso 2: Interfaz Visual (Open WebUI)
+
+¡OJO! Antes de correr el comando que tienes, necesitas Docker. Si no lo tienes, instálalo así de rápido:
+```bash
+curl -fsSL https://get.docker.com -o get-docker.sh
+sudo sh get-docker.sh
+sudo usermod -aG docker $USER
+# REINICIA LA SESIÓN (cierra y abre la terminal) para que los cambios surtan efecto
+```
+
+
 Para que se vea como ChatGPT, usaremos Docker. Es la forma más limpia de no "ensuciar" tu sistema.
 Levanta el contenedor de Open WebUI:
 ```bash
 docker run -d -p 3000:8080 --add-host=host.docker.internal:host-gateway -v open-webui:/app/backend/data --name open-webui ghcr.io/open-webui/open-webui:main
 ```
-Acceso: Abre tu navegador en `http://localhost:3000`. Crea tu cuenta local (recuerda: todo se queda en tu PC) y selecciona el modelo en el desplegable superior.
+Acceso: Abre tu navegador en `http://localhost:3000`. Crea tu cuenta local (recuerda: todo se queda en tu PC) y selecciona el modelo en el desplegable superior. El primer usuario que se registre será el Administrador.
 
-## 💻 Paso 3: Integración en VSCodium (Continue.dev)
+## 💻 Paso 3: El Taller (VSCodium + Continue)
 Cómo instalarlo (en Ubuntu/Debian)
 Abre tu terminal y pega esto:
+
 ```bash
-# Añadir la clave GPG y el repositorio
-wget -qO - https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/raw/master/pub.gpg | gpg --dearmor | sudo dd of=/usr/share/keyrings/vscodium-archive-keyring.gpg
+# 1. Añadir clave y repositorio
+wget -qO - https://download.vscodium.com/debs/pub.gpg | gpg --dearmor | sudo dd of=/usr/share/keyrings/vscodium-archive-keyring.gpg
 echo 'deb [ signed-by=/usr/share/keyrings/vscodium-archive-keyring.gpg ] https://download.vscodium.com/debs vscodium main' | sudo tee /etc/apt/sources.list.d/vscodium.list
 
-# Instalar
-sudo apt update && sudo apt install codium
+# 2. Instalar
+sudo apt update && sudo apt install -y codium
 ```
 2. Instalar la extensión "Continue"
 Una vez abras VSCodium:
@@ -70,6 +87,10 @@ Se abrirá un archivo llamado `config.json`. Tienes que dejar la sección de `mo
     "title": "Tab Autocomplete",
     "provider": "ollama",
     "model": "deepseek-coder-v2:16b-lite-instruct-q4_K_M"
+  },
+  "embeddingsProvider": {
+    "provider": "ollama",
+    "model": "llama3.1:8b"
   }
 }
 ```
