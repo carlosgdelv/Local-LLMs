@@ -21,7 +21,7 @@ Levanta el contenedor de Open WebUI:
 ```bash
 docker run -d -p 3000:8080 --add-host=host.docker.internal:host-gateway -v open-webui:/app/backend/data --name open-webui ghcr.io/open-webui/open-webui:main
 ```
-Acceso: Abre tu navegador en "http://localhost:3000". Crea tu cuenta local (recuerda: todo se queda en tu PC) y selecciona el modelo en el desplegable superior.
+Acceso: Abre tu navegador en `http://localhost:3000`. Crea tu cuenta local (recuerda: todo se queda en tu PC) y selecciona el modelo en el desplegable superior.
 
 ## 💻 Paso 3: Integración en VSCodium (Continue.dev)
 Cómo instalarlo (en Ubuntu/Debian)
@@ -39,7 +39,7 @@ Una vez abras VSCodium:
 
 En la barra lateral izquierda, haz clic en el icono de Extensiones (parecen 4 cuadraditos).
 
-Busca: Continue.
+Busca: `Continue`.
 
 Dale a Install. Aparecerá un icono de una letra "C" en la barra lateral.
 
@@ -50,7 +50,7 @@ Haz clic en el icono de Continue (la "C").
 
 Abajo del todo verás un icono de un engranaje (Settings). Haz clic.
 
-Se abrirá un archivo llamado config.json. Tienes que dejar la sección de models así (borra lo que haya y pega esto):
+Se abrirá un archivo llamado `config.json`. Tienes que dejar la sección de `models` así (borra lo que haya y pega esto):
 
 ```bash
 {
@@ -74,8 +74,8 @@ Se abrirá un archivo llamado config.json. Tienes que dejar la sección de model
 }
 ```
 4. ¿Cómo se usa esto en el día a día?
-Para crear un archivo: Abres un archivo (ej. firewall_rules.sh).
+Para crear un archivo: Abres un archivo (ej. `firewall_rules.sh`).
 
-Para que la IA te ayude: Seleccionas un trozo de código y pulsas Ctrl + L. Se abre un chat a la derecha. Le dices: "Optimiza este script para OPNsense" y lo hace ahí mismo.
+Para que la IA te ayude: Seleccionas un trozo de código y pulsas `Ctrl + L`. Se abre un chat a la derecha. Le dices: "Optimiza este script para OPNsense" y lo hace ahí mismo.
 
-Autocompletado: Mientras escribes, la IA te sugerirá la siguiente línea (como el autocompletado de los móviles, pero inteligente). Pulsas Tab y listo.
+Autocompletado: Mientras escribes, la IA te sugerirá la siguiente línea (como el autocompletado de los móviles, pero inteligente). Pulsas `Tab` y listo.
