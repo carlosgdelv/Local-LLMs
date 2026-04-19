@@ -23,13 +23,7 @@ ollama pull deepseek-coder-v2:16b-lite-instruct-q4_K_M
 
 ## 🌐 Paso 2: Interfaz Visual (Open WebUI)
 
-¡OJO! Antes de correr el comando que tienes, necesitas Docker. Si no lo tienes, instálalo así de rápido:
-```bash
-curl -fsSL https://get.docker.com -o get-docker.sh
-sudo sh get-docker.sh
-sudo usermod -aG docker $USER
-# REINICIA LA SESIÓN (cierra y abre la terminal) para que los cambios surtan efecto
-```
+¡OJO! Antes de correr el comando que tienes, necesitas Docker.
 
 
 Para que se vea como ChatGPT, usaremos Docker. Es la forma más limpia de no "ensuciar" tu sistema.
