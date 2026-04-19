@@ -94,3 +94,55 @@ Para crear un archivo: Abres un archivo (ej. `firewall_rules.sh`).
 Para que la IA te ayude: Seleccionas un trozo de código y pulsas `Ctrl + L`. Se abre un chat a la derecha. Le dices: "Optimiza este script para OPNsense" y lo hace ahí mismo.
 
 Autocompletado: Mientras escribes, la IA te sugerirá la siguiente línea (como el autocompletado de los móviles, pero inteligente). Pulsas `Tab` y listo.
+
+Como estás en Linux, el problema es que el servicio de Ollama viene bloqueado por defecto para conexiones externas (como la de Docker, donde corre Open WebUI).
+
+Sigue estos pasos exactos en tu terminal para solucionarlo:
+
+## 1. Configurar los permisos (OLLAMA_ORIGINS)
+Abre una terminal y ejecuta el siguiente comando para editar la configuración del servicio:
+
+```bash
+sudo systemctl edit ollama.service
+```
+Se abrirá un editor de texto (probablemente `nano`). Baja hasta el final y pega estas líneas:
+
+```bash
+[Service]
+Environment="OLLAMA_HOST=0.0.0.0"
+Environment="OLLAMA_ORIGINS=*"
+```
+OLLAMA_HOST=0.0.0.0 le dice a Ollama que escuche en todas las interfaces de red.
+
+OLLAMA_ORIGINS=* permite que la interfaz web se conecte sin bloqueos de seguridad.
+
+Para guardar en Nano: Presiona `Ctrl + O`, luego `Enter` para confirmar, y `Ctrl + X` para salir.
+
+2. Reiniciar el servicio
+Para que Linux aplique los cambios, ejecuta estos dos comandos:
+
+```bash
+sudo systemctl daemon-reload
+sudo systemctl restart ollama
+```
+
+3. Configurar la URL en Open WebUI
+Ahora vuelve a tu navegador (la pantalla de tu captura) y haz lo siguiente:
+
+En el apartado de API Ollama, asegúrate de que la URL sea:
+`http://172.17.0.1:11434` o `http://host.docker.internal:11434`
+
+Haz clic en el icono de refrescar (el círculo con la flecha) que está al lado de la URL.
+
+Si se pone en verde, ¡ya está! El error de "Fallo al obtener los modelos" desaparecerá.
+
+4. Cómo "meter" la IA (Descargar Llama 3)
+Una vez que el círculo esté verde:
+
+Verás un campo de texto que dice "Pull a model from Ollama.com" o un icono de una flecha hacia abajo.
+
+Escribe: `llama3`
+
+Dale al botón de descargar (el icono de la flecha o el "+" ).
+
+Espera a que llegue al 100%. Cuando termine, ya podrás ir al chat principal y seleccionar Llama 3 en el menú desplegable de arriba.
