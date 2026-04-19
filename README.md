@@ -1,12 +1,12 @@
 # Local-LLMs
 
-## 🛠️ Paso 0: Preparar el terreno (Dependencias)
+## 🛠️ Paso 1: Preparar el terreno (Dependencias)
 Antes de nada, asegúrate de tener las herramientas básicas. Copia y pega esto:
 ```bash
 sudo apt update && sudo apt install -y curl wget gpg ca-certificates
 ```
 
-## 🛠️ Paso 1: Instalación de Ollama (El Motor)
+## 🛠️ Paso 2: Instalación de Ollama (El Motor)
 Instala Ollama con un solo comando:
 ```bash
 curl -fsSL https://ollama.com/install.sh | sh
@@ -21,7 +21,7 @@ Para programar (Tu experto en código):
 ollama pull deepseek-coder-v2:16b-lite-instruct-q4_K_M
 ```
 
-## 🌐 Paso 2: Interfaz Visual (Open WebUI)
+## 🌐 Paso 3: Interfaz Visual (Open WebUI)
 
 ¡OJO! Antes de correr el comando que tienes, necesitas Docker.
 
@@ -33,7 +33,7 @@ docker run -d -p 3000:8080 --add-host=host.docker.internal:host-gateway -v open-
 ```
 Acceso: Abre tu navegador en `http://localhost:3000`. Crea tu cuenta local (recuerda: todo se queda en tu PC) y selecciona el modelo en el desplegable superior. El primer usuario que se registre será el Administrador.
 
-## 💻 Paso 3: El Taller (VSCodium + Continue)
+## 💻 Paso 4: El Taller (VSCodium + Continue)
 Cómo instalarlo (en Ubuntu/Debian)
 Abre tu terminal y pega esto:
 
@@ -127,7 +127,7 @@ echo -e "[Service]\nEnvironment=\"OLLAMA_HOST=0.0.0.0\"\nEnvironment=\"OLLAMA_OR
 ```
 
 
-2. Reiniciar el servicio
+## 2. Reiniciar el servicio
 Para que Linux aplique los cambios, ejecuta estos dos comandos:
 
 ```bash
@@ -135,7 +135,7 @@ sudo systemctl daemon-reload
 sudo systemctl restart ollama
 ```
 
-3. Configurar la URL en Open WebUI
+## 3. Configurar la URL en Open WebUI
 Ahora vuelve a tu navegador (la pantalla de tu captura) y haz lo siguiente:
 
 En el apartado de API Ollama, asegúrate de que la URL sea:
@@ -145,7 +145,7 @@ Haz clic en el icono de refrescar (el círculo con la flecha) que está al lado 
 
 Si se pone en verde, ¡ya está! El error de "Fallo al obtener los modelos" desaparecerá.
 
-4. Cómo "meter" la IA (Descargar Llama 3)
+## 4. Cómo "meter" la IA (Descargar Llama 3)
 Una vez que el círculo esté verde:
 
 Verás un campo de texto que dice "Pull a model from Ollama.com" o un icono de una flecha hacia abajo.
