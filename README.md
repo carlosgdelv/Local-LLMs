@@ -118,6 +118,15 @@ OLLAMA_ORIGINS=* permite que la interfaz web se conecte sin bloqueos de segurida
 
 Para guardar en Nano: Presiona `Ctrl + O`, luego `Enter` para confirmar, y `Ctrl + X` para salir.
 
+1. Crea la carpeta y el archivo a la fuerza
+Copia y pega este bloque de comandos entero en tu terminal:
+
+```bash
+sudo mkdir -p /etc/systemd/system/ollama.service.d/
+echo -e "[Service]\nEnvironment=\"OLLAMA_HOST=0.0.0.0\"\nEnvironment=\"OLLAMA_ORIGINS=*\"" | sudo tee /etc/systemd/system/ollama.service.d/override.conf
+```
+
+
 2. Reiniciar el servicio
 Para que Linux aplique los cambios, ejecuta estos dos comandos:
 
