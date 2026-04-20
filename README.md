@@ -20,6 +20,20 @@ Para programar (Tu experto en código):
 ```bash
 ollama pull deepseek-coder-v2:16b-lite-instruct-q4_K_M
 ```
+Gemma 2 27B: Es, posiblemente, el mejor modelo en relación calidad-peso ahora mismo. En su versión cuantizada (q4_K_M), debería irte bastante fluido. Es mucho más inteligente que Llama 3.1 8B.
+```bash
+ollama run gemma2:27b
+```
+Mistral Small (22B): Ha salido hace poco y está optimizado para razonamiento y eficiencia. En tu PC debería volar.
+
+```bash
+ollama run mistral-small
+```
+Qwen 2.5 (de Alibaba Cloud)
+
+```bash
+ollama run qwen2.5:14b
+```
 
 ## 🌐 Paso 3: Interfaz Visual (Open WebUI)
 
