@@ -169,3 +169,9 @@ Escribe: `llama3`
 Dale al botón de descargar (el icono de la flecha o el "+" ).
 
 Espera a que llegue al 100%. Cuando termine, ya podrás ir al chat principal y seleccionar Llama 3 en el menú desplegable de arriba.
+
+Ya conoces `htop`, pero hay una herramienta que los que trabajamos con IA usamos para ver el estrés real del sistema: nvtop. Aunque su nombre viene de NVIDIA, las versiones modernas soportan CPU e Intel GPU/NPU.
+
+```bash
+sudo apt install nvtop
+```
