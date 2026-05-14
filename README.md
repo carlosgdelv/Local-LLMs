@@ -50,7 +50,7 @@ sudo mkdir -p /etc/systemd/system/ollama.service.d/
 echo -e "[Service]\nEnvironment=\"OLLAMA_HOST=0.0.0.0\"\nEnvironment=\"OLLAMA_ORIGINS=*\"" | sudo tee /etc/systemd/system/ollama.service.d/override.conf
 ```
 2. Reiniciar el motor:Para que los cambios surtan efecto
-3.  ```bash
+```bash
 sudo systemctl daemon-reload
 sudo systemctl restart ollama
 ```
