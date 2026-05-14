@@ -124,8 +124,14 @@ Copia y pega este bloque de comandos entero en tu terminal:
 ```bash
 sudo mkdir -p /etc/systemd/system/ollama.service.d/
 echo -e "[Service]\nEnvironment=\"OLLAMA_HOST=0.0.0.0\"\nEnvironment=\"OLLAMA_ORIGINS=*\"" | sudo tee /etc/systemd/system/ollama.service.d/override.conf
+K: 15
+Temperatura: 0
+top_k: 1
+top_p: 0.1
+presence_penalty: 0
+frecuency_penalty: 0
+num_ctx: 16384
 ```
-
 
 Perfil ---- Adm ----- Documentos ---- Motor de Modelo de Incrustación [http://172.17.0.1:11434](http://172.17.0.1:11434) y Ollama --------  mxbai-embed-large:latest -------- http://localhost:11434/ 
 
