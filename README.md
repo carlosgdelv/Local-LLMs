@@ -1,117 +1,96 @@
-# Local-LLMs
+# Local-LLMs MVP: IA Soberana Privada con RAG
 
-## 🛠️ Paso 1: Preparar el terreno (Dependencias)
-Antes de nada, asegúrate de tener las herramientas básicas. Copia y pega esto:
+Guía técnica para el despliegue de una infraestructura de Inteligencia Artificial local, privada y optimizada para tareas administrativas sin dependencia de GPU externa.
+
+## 🛠️ Paso 1: Preparación del Sistema (Dependencias)
+Actualiza el sistema e instala las herramientas de monitoreo y red necesarias:
+
 ```bash
-sudo apt update && sudo apt install -y curl wget gpg ca-certificates
+sudo apt update && sudo apt install -y curl wget gpg ca-certificates htop nvtop docker.io
 ```
 
 ## 🛠️ Paso 2: Instalación de Ollama (El Motor)
-Instala Ollama con un solo comando:
+
+Instala el motor de inferencia con el script oficial:
+
 ```bash
 curl -fsSL https://ollama.com/install.sh | sh
 ```
-Descarga los modelos que hemos analizado:
-Para razonamiento general (Mossad-level logic):
+Descarga de Modelos Estratégicos
+
+Ejecuta estos comandos para descargar los modelos optimizados para ejecución en CPU:
+
+1. Razonamiento General (Llama 3.1 8B):
 ```bash
 ollama pull llama3.1:8b
 ```
-Para programar (Tu experto en código):
-```bash
-ollama pull deepseek-coder-v2:16b-lite-instruct-q4_K_M
+2. Motor de Embeddings (Obligatorio para RAG):
+ ```bash
+ollama pull qwen2.5:7b
 ```
-Gemma 2 27B: Es, posiblemente, el mejor modelo en relación calidad-peso ahora mismo. En su versión cuantizada (q4_K_M), debería irte bastante fluido. Es mucho más inteligente que Llama 3.1 8B.
-```bash
-ollama run gemma2:27b
-```
-Mistral Small (22B): Ha salido hace poco y está optimizado para razonamiento y eficiencia. En tu PC debería volar.
-
-```bash
-ollama run mistral-small
-```
-Qwen 2.5 (de Alibaba Cloud)
-
-```bash
-ollama run qwen2.5:14b
+3. El "Motor" de búsqueda (Embeddings) - ¡OBLIGATORIO PARA RAG!:
+Este modelo no chatea, se encarga de procesar los PDFs que subas a la plataforma.
+ ```bash
+ollama pull mxbai-embed-large
 ```
 
-## 🌐 Paso 3: Interfaz Visual (Open WebUI)
 
-¡OJO! Antes de correr el comando que tienes, necesitas Docker.
+## ⚙️ Paso 3: Configuración de Red (Acceso Local/Privado)
+Este paso "abre las puertas" de Ollama para que la interfaz web pueda entrar.
+1. Crear regla de acceso:
+ ```bash
+sudo mkdir -p /etc/systemd/system/ollama.service.d/
+echo -e "[Service]\nEnvironment=\"OLLAMA_HOST=0.0.0.0\"\nEnvironment=\"OLLAMA_ORIGINS=*\"" | sudo tee /etc/systemd/system/ollama.service.d/override.conf
+```
+2. Reiniciar el motor:Para que los cambios surtan efecto
+3.  ```bash
+sudo systemctl daemon-reload
+sudo systemctl restart ollama
+```
 
+## ⚙️ Paso 4: Lanzar la Interfaz (Open WebUI)
 
-Para que se vea como ChatGPT, usaremos Docker. Es la forma más limpia de no "ensuciar" tu sistema.
-Levanta el contenedor de Open WebUI:
+Ahora que la red está lista, levantamos la interfaz visual con Docker.
+
 ```bash
 docker run -d -p 3000:8080 --add-host=host.docker.internal:host-gateway -v open-webui:/app/backend/data --name open-webui ghcr.io/open-webui/open-webui:main
 ```
-Acceso: Abre tu navegador en `http://localhost:3000`. Crea tu cuenta local (recuerda: todo se queda en tu PC) y selecciona el modelo en el desplegable superior. El primer usuario que se registre será el Administrador.
+Configuración Inicial:
+Accede a `http://localhost:3000` y crea tu cuenta de Administrador.
 
-## 💻 Paso 4: El Taller (VSCodium + Continue)
-Cómo instalarlo (en Ubuntu/Debian)
-Abre tu terminal y pega esto:
+Ve a Ajustes > Conexiones.
 
-```bash
-# 1. Añadir clave y repositorio
-wget -qO - https://download.vscodium.com/debs/pub.gpg | gpg --dearmor | sudo dd of=/usr/share/keyrings/vscodium-archive-keyring.gpg
-echo 'deb [ signed-by=/usr/share/keyrings/vscodium-archive-keyring.gpg ] https://download.vscodium.com/debs vscodium main' | sudo tee /etc/apt/sources.list.d/vscodium.list
+Verifica que la URL sea: `[http://host.docker.internal:11434](http://host.docker.internal:11434)`
 
-# 2. Instalar
-sudo apt update && sudo apt install -y codium
-```
-2. Instalar la extensión "Continue"
-Una vez abras VSCodium:
+Haz clic en el icono de Refrescar. El círculo verde confirma la conexión.
 
-En la barra lateral izquierda, haz clic en el icono de Extensiones (parecen 4 cuadraditos).
 
-Busca: `Continue`.
 
-Dale a Install. Aparecerá un icono de una letra "C" en la barra lateral.
 
-3. Configurar Continue para que "hable" con Ollama
-Ahora vamos a decirle a VSCodium que use el DeepSeek que ya tienes en Ollama.
 
-Haz clic en el icono de Continue (la "C").
+## Paso 5: Activando el RAG (Documentos Administrativos)
 
-Abajo del todo verás un icono de un engranaje (Settings). Haz clic.
+Configura el sistema para que pueda "leer" tus archivos. Accede a http://localhost:3000.
 
-Se abrirá un archivo llamado `config.json`. Tienes que dejar la sección de `models` así (borra lo que haya y pega esto):
+Ve a Settings (Ajustes) -> Documents.
+
+En Embedding Model Engine, selecciona ollama.
+
+En Embedding Model, escribe mxbai-embed-large y presiona descargar/guardar.
+
+
+##  📂 Paso 6: Uso del Sistema
+
+Chat con RAG: En el chat principal, arrastra un PDF. Escribe `#` seguido del nombre del archivo para preguntar sobre él.
+
+Monitoreo de Hardware: Para ver el rendimiento de tus 20 núcleos durante la inferencia:
 
 ```bash
-{
-  "models": [
-    {
-      "title": "DeepSeek Coder 16B",
-      "provider": "ollama",
-      "model": "deepseek-coder-v2:16b-lite-instruct-q4_K_M"
-    },
-    {
-      "title": "Llama 3.1 8B",
-      "provider": "ollama",
-      "model": "llama3.1:8b"
-    }
-  ],
-  "tabAutocompleteModel": {
-    "title": "Tab Autocomplete",
-    "provider": "ollama",
-    "model": "deepseek-coder-v2:16b-lite-instruct-q4_K_M"
-  },
-  "embeddingsProvider": {
-    "provider": "ollama",
-    "model": "llama3.1:8b"
-  }
-}
+sudo apt install -y nvtop && nvtop
 ```
-4. ¿Cómo se usa esto en el día a día?
-Para crear un archivo: Abres un archivo (ej. `firewall_rules.sh`).
 
-Para que la IA te ayude: Seleccionas un trozo de código y pulsas `Ctrl + L`. Se abre un chat a la derecha. Le dices: "Optimiza este script para OPNsense" y lo hace ahí mismo.
 
-Autocompletado: Mientras escribes, la IA te sugerirá la siguiente línea (como el autocompletado de los móviles, pero inteligente). Pulsas `Tab` y listo.
 
-Como estás en Linux, el problema es que el servicio de Ollama viene bloqueado por defecto para conexiones externas (como la de Docker, donde corre Open WebUI).
-
-Sigue estos pasos exactos en tu terminal para solucionarlo:
 
 ## 1. Configurar los permisos (OLLAMA_ORIGINS)
 Abre una terminal y ejecuta el siguiente comando para editar la configuración del servicio:
@@ -141,37 +120,5 @@ echo -e "[Service]\nEnvironment=\"OLLAMA_HOST=0.0.0.0\"\nEnvironment=\"OLLAMA_OR
 ```
 
 
-## 2. Reiniciar el servicio
-Para que Linux aplique los cambios, ejecuta estos dos comandos:
 
-```bash
-sudo systemctl daemon-reload
-sudo systemctl restart ollama
-```
 
-## 3. Configurar la URL en Open WebUI
-Ahora vuelve a tu navegador (la pantalla de tu captura) y haz lo siguiente:
-
-En el apartado de API Ollama, asegúrate de que la URL sea:
-`http://172.17.0.1:11434` o `http://host.docker.internal:11434`
-
-Haz clic en el icono de refrescar (el círculo con la flecha) que está al lado de la URL.
-
-Si se pone en verde, ¡ya está! El error de "Fallo al obtener los modelos" desaparecerá.
-
-## 4. Cómo "meter" la IA (Descargar Llama 3)
-Una vez que el círculo esté verde:
-
-Verás un campo de texto que dice "Pull a model from Ollama.com" o un icono de una flecha hacia abajo.
-
-Escribe: `llama3`
-
-Dale al botón de descargar (el icono de la flecha o el "+" ).
-
-Espera a que llegue al 100%. Cuando termine, ya podrás ir al chat principal y seleccionar Llama 3 en el menú desplegable de arriba.
-
-Ya conoces `htop`, pero hay una herramienta que los que trabajamos con IA usamos para ver el estrés real del sistema: nvtop. Aunque su nombre viene de NVIDIA, las versiones modernas soportan CPU e Intel GPU/NPU.
-
-```bash
-sudo apt install nvtop
-```
