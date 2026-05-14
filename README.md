@@ -6,8 +6,15 @@ Guía técnica para el despliegue de una infraestructura de Inteligencia Artific
 Actualiza el sistema e instala las herramientas de monitoreo y red necesarias:
 
 ```bash
-sudo apt update && sudo apt install -y curl wget gpg ca-certificates htop nvtop docker.io
+sudo apt update && sudo apt install -y docker.io
 ```
+Para que no tengas que escribir sudo cada vez que uses Docker (y que Open WebUI funcione bien), ejecuta esto:
+
+```bash
+sudo systemctl enable --now docker
+sudo usermod -aG docker $USER
+```
+IMPORTANTE: Después de este comando, cierra la terminal y ábrela de nuevo (o reinicia sesión) para que el cambio de grupo surta efecto.
 
 ## 🛠️ Paso 2: Instalación de Ollama (El Motor)
 
