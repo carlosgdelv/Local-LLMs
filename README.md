@@ -89,9 +89,21 @@ Verifica que la URL sea: `[http://host.docker.internal:11434](http://host.docker
 
 Haz clic en el icono de Refrescar. El círculo verde confirma la conexión.
 
+Ejecuta esto en tu terminal para asegurarte de tener la última versión que corrige estos fallos de compatibilidad:
 
+```bash
+docker pull ghcr.io/open-webui/open-webui:main
+```
+Detén y elimina el contenedor actual (no borra tus datos si usas volúmenes):
 
-
+```bash
+docker stop open-webui
+docker rm open-webui
+```
+Verificar versión (El método que no falla)
+```bash
+docker logs open-webui | grep "v"
+```
 
 ## Paso 5: Activando el RAG (Documentos Administrativos)
 
