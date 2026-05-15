@@ -58,17 +58,7 @@ ollama pull qwen2.5:32b
  ```bash
 ollama pull qwen3-embedding:8b
 ```
-3. El "Motor" de búsqueda (Embeddings) - ¡OBLIGATORIO PARA RAG!:
-Este modelo no chatea, se encarga de procesar los PDFs que subas a la plataforma.
- ```bash
-ollama pull mxbai-embed-large
-```
-3. Reranker
 
-Aquí entra el bge-reranker-v2-m3. Este modelo no mira 50.000 documentos (sería lentísimo). Solo mira los 15 que seleccionó el paso anterior.
- ```bash
-?
-```
 
 ## ⚙️ Paso 3: Configuración de Red (Acceso Local/Privado)
 Este paso "abre las puertas" de Ollama para que la interfaz web pueda entrar.
