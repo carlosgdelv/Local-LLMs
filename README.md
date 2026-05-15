@@ -63,7 +63,12 @@ Este modelo no chatea, se encarga de procesar los PDFs que subas a la plataforma
  ```bash
 ollama pull mxbai-embed-large
 ```
+3. Reranker
 
+Aquí entra el bge-reranker-v2-m3. Este modelo no mira 50.000 documentos (sería lentísimo). Solo mira los 15 que seleccionó el paso anterior.
+ ```bash
+?
+```
 
 ## ⚙️ Paso 3: Configuración de Red (Acceso Local/Privado)
 Este paso "abre las puertas" de Ollama para que la interfaz web pueda entrar.
@@ -149,6 +154,45 @@ sudo mkdir -p /etc/systemd/system/ollama.service.d/
 echo -e "[Service]\nEnvironment=\"OLLAMA_HOST=0.0.0.0\"\nEnvironment=\"OLLAMA_ORIGINS=*\"" | sudo tee /etc/systemd/system/ollama.service.d/override.conf
 ```
 
+
+
+##  🚀 Despliegue del Motor de Extracción Documental (Docling)
+
+Instalación del motor Docling-Serve:
+```bash
+pip install docling-serve
+```
+Instalación de dependencias del sistema:
+```bash
+sudo apt install python3.12-venv
+
+```
+Creación del entorno virtual soberano:
+```bash
+python3 -m venv docling_env
+```
+Activar el entorno
+```bash
+source docling_env/bin/activate
+```
+Instalar Docling-Serve
+
+```bash
+source docling_env/bin/activate
+```
+Lanzamiento del servidor
+```bash
+docling-serve run --host 0.0.0.0 --port 5001
+```
+Arranca el microservicio en el puerto 5001, permitiendo que tu Asistente CAST procese documentos de forma local y privada.
+
+Obtén tu IP local, en una nueva termianl:
+```bash
+hostname -I | awk '{print $1}'
+```
+Docling Server URL: `http://xxx:5001`
+
+
 ##  Plantilla LLM (Cerebro)
 K: 15
 Temperatura: 0
@@ -164,8 +208,11 @@ Tamaño de los Fragmnentos: 2000
 Superposición de Fragmentos: 200
 Top K: 10
 
-
-                                                                
+Búsqueda Híbrida ---- Activada
+Texto Enriquecido en la Búsqueda Híbrida ----- Activada
+Top K Reclasificador: 7    
+Umbral de Relevancia: 0.2
+Modelo de Reclasificación: BAAI/bge-reranker-v2-m3
 
 Perfil ---- Adm ----- Documentos ---- Motor de Modelo de Incrustación [http://172.17.0.1:11434](http://172.17.0.1:11434) y Ollama --------  mxbai-embed-large:latest -------- http://localhost:11434/ 
 
