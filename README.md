@@ -104,6 +104,20 @@ Verificar versión (El método que no falla)
 ```bash
 docker logs open-webui | grep "v"
 ```
+Como poner para que WebUI permita importar documentacion. Ejemplo de 5 horas
+
+```bash
+docker stop open-webui
+docker rm open-webui
+
+docker run -d -p 3000:8080 \
+  --add-host=host.docker.internal:host-gateway \
+  -e WEBUI_TIMEOUT=18000 \
+  -e GUNICORN_TIMEOUT=18000 \
+  -v open-webui:/app/backend/data \
+  --name open-webui \
+  ghcr.io/open-webui/open-webui:main
+```
 
 ## Paso 5: Activando el RAG (Documentos Administrativos)
 
