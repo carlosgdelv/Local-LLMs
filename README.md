@@ -231,7 +231,7 @@ Perfil ---- Adm ----- Documentos ---- Motor de Modelo de Incrustación [http://1
 
 - Top K (10): Número de fragmentos iniciales que busca; si lo subes tienes más "materia prima", si lo bajas vas más rápido.
 
-- Top K Reranker (7): Fragmentos finales que lee la IA; si lo subes das más info al modelo, si lo bajas evitas que se confunda con ruido.
+- Top K Reclasificador (7): Fragmentos finales que lee la IA; si lo subes das más info al modelo, si lo bajas evitas que se confunda con ruido.
 
 - Umbral de Relevancia (0.2): Filtro de seguridad; si lo subes la IA solo usa fragmentos perfectos, si lo bajas permite usar "dudas" razonables.
 
