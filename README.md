@@ -58,7 +58,11 @@ ollama pull qwen2.5:32b
  ```bash
 ollama pull qwen3-embedding:8b
 ```
+o
 
+ ```bash
+ollama pull nomic-embed-text
+```
 
 ## ⚙️ Paso 3: Configuración de Red (Acceso Local/Privado)
 Este paso "abre las puertas" de Ollama para que la interfaz web pueda entrar.
