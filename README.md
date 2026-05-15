@@ -174,6 +174,8 @@ echo -e "[Service]\nEnvironment=\"OLLAMA_HOST=0.0.0.0\"\nEnvironment=\"OLLAMA_OR
 
 ##  🚀 Despliegue del Motor de Extracción Documental (Docling)
 
+
+
 Instalación del motor Docling-Serve:
 ```bash
 pip install docling-serve
@@ -195,6 +197,10 @@ Instalar Docling-Serve
 
 ```bash
 source docling_env/bin/activate
+```
+Entrar a mi sesion  de Docling una vez instalado
+```bash
+source /home/carlos/docling_env/bin/activate
 ```
 Lanzamiento del servidor
 ```bash
