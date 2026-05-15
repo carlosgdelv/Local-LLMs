@@ -194,7 +194,11 @@ hostname -I | awk '{print $1}'
 ```
 Docling Server URL: `http://xxx:5001`
 
+Version del Docling
 
+```bash
+source /home/carlos/docling_env/bin/activate && pip show docling-serve
+```
 ##  Plantilla LLM (Cerebro)
 K: 15
 Temperatura: 0
