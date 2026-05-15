@@ -2,6 +2,29 @@
 
 Guía técnica para el despliegue de una infraestructura de Inteligencia Artificial local, privada y optimizada para tareas administrativas sin dependencia de GPU externa.
 
+## 🖥️ Personal PC Specifications
+
+
+- **Processor (CPU)**  
+  Intel Core i7 (14th Gen) with 20 cores (8 Performance + 12 Efficient), 3.4 GHz base and 5.6 GHz max turbo.
+
+- **Memory (RAM)**  
+  32GB DDR5 (2×16GB) at 6000 MHz with CL32 latency in dual-channel configuration.
+
+- **Storage**  
+  2TB SSD using PCIe 4.0 NVMe interface with Gen 4x4 for high-speed data transfer.
+
+- **Power Supply (PSU)**  
+  750W unit with 80 Plus Bronze certification for efficient energy usage.
+
+- **Cooling**  
+  240mm liquid cooler with dual fans.
+
+- **Motherboard**  
+  ATX board with B760 chipset, supports DDR5 and PCIe 4.0.
+
+
+
 ## 🛠️ Paso 1: Preparación del Sistema (Dependencias)
 Actualiza el sistema e instala las herramientas de monitoreo y red necesarias:
 
@@ -33,7 +56,7 @@ ollama pull llama3.1:8b
 ```
 2. Motor de Embeddings (Obligatorio para RAG):
  ```bash
-ollama pull qwen2.5:7b
+ollama pull qwen3-embedding:8b
 ```
 3. El "Motor" de búsqueda (Embeddings) - ¡OBLIGATORIO PARA RAG!:
 Este modelo no chatea, se encarga de procesar los PDFs que subas a la plataforma.
@@ -131,7 +154,20 @@ top_p: 0.1
 presence_penalty: 0
 frecuency_penalty: 0
 num_ctx: 16384
+
+
+Plantilla del RAG
+Tamaño de los Fragmnentos: 2000
+Superposición de Fragmentos: 200
+
+
 ```
 
 Perfil ---- Adm ----- Documentos ---- Motor de Modelo de Incrustación [http://172.17.0.1:11434](http://172.17.0.1:11434) y Ollama --------  mxbai-embed-large:latest -------- http://localhost:11434/ 
+
+
+
+
+
+
 
