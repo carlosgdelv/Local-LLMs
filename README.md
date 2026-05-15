@@ -213,6 +213,16 @@ Version del Docling
 ```bash
 source /home/carlos/docling_env/bin/activate && pip show docling-serve
 ```
+
+Necesitamos lanzar Docling con un tiempo de espera igual de largo  que WebUI. Usa este comando en tu terminal de docling_env:
+```bash
+# Primero matamos el proceso actual si sigue vivo
+fuser -k 5001/tcp
+
+# Lanzamos con timeout de 5 horas (18000 segundos)
+docling-serve run --host 0.0.0.0 --port 5001 --timeout-keep-alive 18000
+```
+
 ##  Plantilla LLM (Cerebro)
 K: 15
 Temperatura: 0
