@@ -147,6 +147,9 @@ Copia y pega este bloque de comandos entero en tu terminal:
 ```bash
 sudo mkdir -p /etc/systemd/system/ollama.service.d/
 echo -e "[Service]\nEnvironment=\"OLLAMA_HOST=0.0.0.0\"\nEnvironment=\"OLLAMA_ORIGINS=*\"" | sudo tee /etc/systemd/system/ollama.service.d/override.conf
+```
+
+##  Plantilla LLM
 K: 15
 Temperatura: 0
 top_k: 1
@@ -156,13 +159,13 @@ frecuency_penalty: 0
 num_ctx: 16384
 
 
-Plantilla del RAG
+##  Plantilla del RAG
 Tamaño de los Fragmnentos: 2000
 Superposición de Fragmentos: 200
 Top K: 10
 
 
-```
+                                                                
 
 Perfil ---- Adm ----- Documentos ---- Motor de Modelo de Incrustación [http://172.17.0.1:11434](http://172.17.0.1:11434) y Ollama --------  mxbai-embed-large:latest -------- http://localhost:11434/ 
 
