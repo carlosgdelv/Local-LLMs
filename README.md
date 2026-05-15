@@ -228,6 +228,20 @@ fuser -k 5001/tcp
 # Lanzamos con timeout de 5 horas (18000 segundos)
 docling-serve run --host 0.0.0.0 --port 5001 --timeout-keep-alive 18000
 ```
+### Convertir archivo .PDF en archi .md en Docling
+
+```bash
+cd Documentos
+```
+Ejecutar el comando de conversión
+```bash
+docling --to md "BOE-A-2017-12902-consolidado (1).pdf"
+```
+Para buscar el archivo, dentro de Documentos
+```bash
+ls -lh *.md
+```
+
 
 ##  Plantilla LLM (Cerebro)
 K: 15
