@@ -101,7 +101,7 @@ Ve a Settings (Ajustes) -> Documents.
 
 En Embedding Model Engine, selecciona ollama.
 
-En Embedding Model, escribe mxbai-embed-large y presiona descargar/guardar.
+En Embedding Model, escribe qwen3-embedding:8b y presiona descargar/guardar.
 
 
 ##  📂 Paso 6: Uso del Sistema
