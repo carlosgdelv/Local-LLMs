@@ -149,7 +149,7 @@ sudo mkdir -p /etc/systemd/system/ollama.service.d/
 echo -e "[Service]\nEnvironment=\"OLLAMA_HOST=0.0.0.0\"\nEnvironment=\"OLLAMA_ORIGINS=*\"" | sudo tee /etc/systemd/system/ollama.service.d/override.conf
 ```
 
-##  Plantilla LLM
+##  Plantilla LLM (Cerebro)
 K: 15
 Temperatura: 0
 top_k: 1
@@ -159,7 +159,7 @@ frecuency_penalty: 0
 num_ctx: 16384
 
 
-##  Plantilla del RAG
+##  Plantilla de Embeddings (Libreria)
 Tamaño de los Fragmnentos: 2000
 Superposición de Fragmentos: 200
 Top K: 10
