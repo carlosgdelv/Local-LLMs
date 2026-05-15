@@ -52,7 +52,7 @@ Ejecuta estos comandos para descargar los modelos optimizados para ejecución en
 
 1. Razonamiento General (Llama 3.1 8B):
 ```bash
-ollama pull llama3.1:8b
+ollama pull qwen2.5:32b
 ```
 2. Motor de Embeddings (Obligatorio para RAG):
  ```bash
@@ -159,6 +159,7 @@ num_ctx: 16384
 Plantilla del RAG
 Tamaño de los Fragmnentos: 2000
 Superposición de Fragmentos: 200
+Top K: 10
 
 
 ```
