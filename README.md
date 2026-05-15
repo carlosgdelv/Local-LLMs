@@ -204,18 +204,48 @@ num_ctx: 16384
 
 
 ##  Plantilla de Embeddings (Libreria)
-Tamaño de los Fragmnentos: 2000
-Superposición de Fragmentos: 200
-Top K: 10
 
-Búsqueda Híbrida ---- Activada
-Texto Enriquecido en la Búsqueda Híbrida ----- Activada
-Top K Reclasificador: 7    
-Umbral de Relevancia: 0.2
-Modelo de Reclasificación: BAAI/bge-reranker-v2-m3
+Motor para la Extracción de Contenido (Convierte PDFs en Markdown estructural): Docling
+Parámetros:
+{
+  "do_ocr": true,
+  "do_table_structure": true,
+  "detailed_structure": true,
+  "ocr_engine": "tesseract",
+  "pdf_backend": "dlce"
+}
 
-Perfil ---- Adm ----- Documentos ---- Motor de Modelo de Incrustación [http://172.17.0.1:11434](http://172.17.0.1:11434) y Ollama --------  mxbai-embed-large:latest -------- http://localhost:11434/ 
+- do_ocr: Lee texto dentro de imágenes; activado permite procesar escaneos, desactivado ignora fotos y ahorra tiempo.
+- do_table_structure: Identifica filas y columnas; activado mantiene los datos de tablas ordenados, desactivado mezcla los números como texto plano.
+- detailed_structure: Detecta títulos y apartados; activado crea un índice real para la IA, desactivado trata la ley como un muro de texto.
+- ocr_engine (tesseract): Es el software de visión local; garantiza que el reconocimiento de letras sea 100% privado en tu PC.
+- pdf_backend (dlce): Es el motor interno de IBM; optimiza la lectura de documentos complejos para que no se salte ninguna página.
 
+### Fragmentación e Incrustación
+
+- Tamaño de Fragmentos (1500): Si lo subes la IA tiene más contexto, si lo bajas las respuestas son más atómicas y precisas.
+  
+- Superposición (300): Si la subes evitas cortar artículos por la mitad entre trozos, si la bajas ahorras memoria pero pierdes continuidad.
+  
+- Lote de Incrustación (2): Si lo subes procesas documentos más rápido (usa más RAM), si lo bajas es más lento pero más estable.
+  
+- Peticiones Concurrentes (4): Si lo subes aprovechas tus 20 núcleos para indexar leyes en segundos, si lo bajas el PC irá más relajado.
+
+Perfil ---- Adm ----- Documentos ---- Motor de Modelo de Incrustación [http://172.17.0.1:11434](http://172.17.0.1:11434) y Ollama --------  qwen3-embedding:8b -------- http://localhost:11434/ 
+
+### Búsqueda y Reclasificación
+
+- Texto Enriquecido: Añade etiquetas de contexto a cada trozo; activada ayuda a la IA a saber siempre en qué ley está, desactivada ahorra tokens.
+
+- Reranker (BGE-M3): Un segundo cerebro que ordena los resultados; es el filtro final que asegura que lo más importante aparezca primero.
+
+- Top K (10): Número de fragmentos iniciales que busca; si lo subes tienes más "materia prima", si lo bajas vas más rápido.
+
+- Top K Reranker (7): Fragmentos finales que lee la IA; si lo subes das más info al modelo, si lo bajas evitas que se confunda con ruido.
+
+- Umbral de Relevancia (0.2): Filtro de seguridad; si lo subes la IA solo usa fragmentos perfectos, si lo bajas permite usar "dudas" razonables.
+
+- Ponderación BM25 (0.5): Equilibrio entre significado y palabra exacta; si la subes priorizas el término literal (ej: "Art. 159"), si la bajas priorizas el concepto.
 
 
 
