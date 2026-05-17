@@ -36,7 +36,7 @@ echo "GOVERNOR=\"performance\"" | sudo tee /etc/default/cpufrequtils
 # 3. Reiniciar el servicio para aplicar los cambios
 sudo systemctl restart cpufrequtils
 ```
-2. Optimización de la Memoria RAM (Evitar el uso de disco)
+3. Optimización de la Memoria RAM (Evitar el uso de disco)
 
 ```bash
 # 1. Cambiar el valor de intercambio (swappiness) a 1 temporalmente
