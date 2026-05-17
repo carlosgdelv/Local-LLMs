@@ -103,7 +103,7 @@ Descarga de Modelos Estratégicos
 
 Ejecuta estos comandos para descargar los modelos optimizados para ejecución en CPU:
 
-1. Razonamiento General (Llama 3.1 8B):
+1. Razonamiento General:
 ```bash
 ollama pull qwen2.5:14b-instruct-q4_K_M
 ```
