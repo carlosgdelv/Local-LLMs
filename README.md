@@ -105,13 +105,15 @@ Ejecuta estos comandos para descargar los modelos optimizados para ejecución en
 
 1. Razonamiento General (Llama 3.1 8B):
 ```bash
-ollama pull qwen2.5:32b
-```
-2. Motor de Embeddings (Obligatorio para RAG):
- ```bash
-ollama pull qwen3-embedding:8b
+ollama pull qwen2.5:14b-instruct-q4_K_M
 ```
 o
+
+ ```bash
+ollama pull qwen2.5:14b-instruct-q5_K_M
+```
+
+2. Motor de Embeddings (Obligatorio para RAG):
 
  ```bash
 ollama pull nomic-embed-text
