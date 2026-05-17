@@ -225,12 +225,12 @@ echo -e "[Service]\nEnvironment=\"OLLAMA_HOST=0.0.0.0\"\nEnvironment=\"OLLAMA_OR
 
 Instalación del motor Docling-Serve:
 ```bash
-pip install docling-serve
+sudo pip install docling-serve
 ```
 Instalación de dependencias del sistema:
+
 ```bash
 sudo apt install python3.12-venv
-
 ```
 Creación del entorno virtual soberano:
 ```bash
