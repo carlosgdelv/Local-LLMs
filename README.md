@@ -176,18 +176,7 @@ docker run -d -p 3000:8080 \
   ghcr.io/open-webui/open-webui:main
 ```
 
-## Paso 5: Activando el RAG (Documentos Administrativos)
-
-Configura el sistema para que pueda "leer" tus archivos. Accede a http://localhost:3000.
-
-Ve a Settings (Ajustes) -> Documents.
-
-En Embedding Model Engine, selecciona ollama.
-
-En Embedding Model, escribe qwen3-embedding:8b y presiona descargar/guardar.
-
-
-##  📂 Paso 6: Monitoreo de Hardware:
+##  📂 Paso 5: Monitoreo de Hardware:
 
 
 Monitoreo de Hardware: Para ver el rendimiento de tus 20 núcleos durante la inferencia:
