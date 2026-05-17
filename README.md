@@ -23,6 +23,59 @@ Guía técnica para el despliegue de una infraestructura de Inteligencia Artific
 - **Motherboard**  
   ATX board with B760 chipset, supports DDR5 and PCIe 4.0.
 
+#### Optimizaciones
+1. Forzar CPU en Modo Rendimiento (Máxima Frecuencia)
+
+```bash
+# 1. Instalar la herramienta de control de frecuencia
+sudo apt update && sudo apt install -y cpufrequtils
+
+# 2. Configurar el gobernador en rendimiento máximo permanente
+echo "GOVERNOR=\"performance\"" | sudo tee /etc/default/cpufrequtils
+
+# 3. Reiniciar el servicio para aplicar los cambios
+sudo systemctl restart cpufrequtils
+```
+2. Optimización de la Memoria RAM (Evitar el uso de disco)
+
+```bash
+# 1. Cambiar el valor de intercambio (swappiness) a 1 temporalmente
+sudo sysctl vm.swappiness=1
+
+# 2. Hacerlo permanente para que no se borre al reiniciar:
+# Abre el archivo de configuración del sistema:
+sudo nano /etc/sysctl.conf
+
+# 3. Baja hasta el final del archivo con las flechas y añade esta línea:
+vm.swappiness=1
+
+# 4. Guarda con Ctrl+O (luego Enter) y sal con Ctrl+X.
+```
+
+
+2: Configuración de la BIOS (MSI Click BIOS 5)
+
+Pantalla: Overclocking \ Advanced CPU Configuration
+`Intel C-State` ──> Cambiar a: `[Disabled]` (Evita que los núcleos se vayan a dormir).
+
+`C1E Support` ──> Cambiar a: `[Disabled]` (Si te aparece disponible tras desactivar el C-State).
+
+`Long Duration Maintained(s)` ──> Cambiar el valor a: `128` (Estira el tiempo que la CPU puede mantener el modo Turbo sin caparse).
+
+`CPU Lite Load` ──> Cambiar de Mode 16 a: `Mode 12` (Baja el voltaje excesivo de fábrica para reducir la temperatura de la CPU y evitar el ahogamiento térmico).
+
+Botón Principal (Esquina superior izquierda de la BIOS)
+`XMP (Extreme Memory Profile)` ──> Hacer clic en el botón `Profile 1` para ponerlo en Rojo/Activado. (Pasa tu RAM DDR5 de los 4800 MHz capados de fábrica a los 6000 MHz reales de tu hardware).
+
+
+
+
+
+
+
+
+
+
 
 
 ## 🛠️ Paso 1: Preparación del Sistema (Dependencias)
@@ -134,9 +187,8 @@ En Embedding Model Engine, selecciona ollama.
 En Embedding Model, escribe qwen3-embedding:8b y presiona descargar/guardar.
 
 
-##  📂 Paso 6: Uso del Sistema
+##  📂 Paso 6: Monitoreo de Hardware:
 
-Chat con RAG: En el chat principal, arrastra un PDF. Escribe `#` seguido del nombre del archivo para preguntar sobre él.
 
 Monitoreo de Hardware: Para ver el rendimiento de tus 20 núcleos durante la inferencia:
 
@@ -144,7 +196,9 @@ Monitoreo de Hardware: Para ver el rendimiento de tus 20 núcleos durante la inf
 sudo apt install -y nvtop && nvtop
 ```
 
-
+```bash
+btop
+```
 
 
 ## 1. Configurar los permisos (OLLAMA_ORIGINS)
