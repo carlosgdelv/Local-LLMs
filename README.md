@@ -130,6 +130,66 @@ Necesitamos los compiladores de C/C++ optimizados de GNU y la herramienta CMake:
 sudo apt update
 sudo apt install -y build-essential cmake git curl wget
 
+### 🏗️ Paso 2: Clonar y Compilar llama.cpp de Forma Nativa
+Vamos a descargar el código fuente y le ordenaremos al compilador GCC que analice tu i7 de 14ª generación (-march=native) para activar por hardware las instrucciones AVX2 y VNNI (inteligencia artificial integrada en Intel).
+
+# 1. Clonar el repositorio oficial
+git clone https://github.com/ggerganov/llama.cpp
+cd llama.cpp
+
+# 2. Crear un directorio de compilación limpio
+mkdir build && cd build
+
+# 3. Configurar CMake inyectando las banderas de optimización nativa y OpenMP para multihilo
+cmake .. -DCMAKE_BUILD_TYPE=Release \
+         -DCMAKE_C_FLAGS="-march=native -O3" \
+         -DCMAKE_CXX_FLAGS="-march=native -O3" \
+         -DLLAMA_OPENMP=ON
+
+# 4. Compilar usando todos los núcleos de tu procesador (tardará un par de minutos)
+cmake --build . --config Release --parallel $(nproc)
+
+Al terminar, dentro de la carpeta llama.cpp/build/bin/ tendrás el Santo Grial: el binario ejecutable llama-server optimizado al milímetro para tu silicio.
+
+### 📂 Paso 3: Descargar el Modelo en Formato GGUF Manualmente
+Ollama gestiona los modelos en una ruta interna oculta. Para usar llama.cpp puro, nos bajamos el archivo .gguf directamente desde Hugging Face usando wget. Vamos a descargar la versión de 14B en Q5_K_M que acordamos:
+
+# Volvemos a la raíz o a tu carpeta de Documentos
+cd ~/Documentos
+mkdir -p modelos && cd modelos
+
+# Descargar Qwen 2.5 14B Instruct en cuantización de 5 bits
+wget https://huggingface.co/Qwen/Qwen2.5-14B-Instruct-GGUF/resolve/main/qwen2.5-14b-instruct-q5_k_m.gguf
+
+### 🚀 Paso 4: Lanzar el Servidor Nativo
+Ahora arrancamos el microservicio de inferencia. Usaremos los parámetros de élite que calculamos: fijamos los contextos a 16k, limitamos los hilos a tus 8 núcleos rápidos (P-Cores) y lo ponemos a escuchar en el puerto 11434.
+# Ejecuta esto desde la carpeta donde compilaste el binario
+cd ~/llama.cpp/build/bin
+
+# Lanzar el servidor
+./llama-server -m ~/Documentos/modelos/qwen2.5-14b-instruct-q5_k_m.gguf \
+               -c 16384 \
+               -t 8 \
+               --host 0.0.0.0 \
+               --port 11434 \
+               --embedding
+### ⚙️ Paso 5: Adaptar tu Comando de Docker de Open WebUI
+omo llama.cpp clona la API de OpenAI, tenemos que decirle a Open WebUI que en lugar de buscar un servidor de Ollama, busque un servidor compatible con OpenAI en el puerto 11434.
+
+Detén tu contenedor actual y lánzalo con estas variables de entorno modificadas (OPENAI_API_BASE_URL):
+
+docker stop open-webui
+docker rm open-webui
+
+docker run -d -p 3000:8080 \
+  --add-host=host.docker.internal:host-gateway \
+  -e OPENAI_API_BASE_URL=http://host.docker.internal:11434/v1 \
+  -e OPENAI_API_KEY=not_needed \
+  -e WEBUI_TIMEOUT=18000 \
+  -e GUNICORN_TIMEOUT=18000 \
+  -v open-webui:/app/backend/data \
+  --name open-webui \
+  ghcr.io/open-webui/open-webui:main
 ```
 
 ## ⚙️ Paso 3: Configuración de Red (Acceso Local/Privado)
