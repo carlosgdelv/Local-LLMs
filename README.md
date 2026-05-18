@@ -118,6 +118,19 @@ ollama pull qwen2.5:14b-instruct-q5_K_M
  ```bash
 ollama pull nomic-embed-text
 ```
+ ```bash
+### 🛑 Paso 0: Purgar Ollama (Liberar el puerto 11434)
+
+Si tienes Ollama corriendo como servicio de Systemd, se quedará con el puerto. Hay que tumbarlo y desactivarlo:
+sudo systemctl stop ollama
+sudo systemctl disable ollama
+
+### 🛠️ Paso 1: Instalar las Herramientas de Compilación en Ubuntu
+Necesitamos los compiladores de C/C++ optimizados de GNU y la herramienta CMake:
+sudo apt update
+sudo apt install -y build-essential cmake git curl wget
+
+```
 
 ## ⚙️ Paso 3: Configuración de Red (Acceso Local/Privado)
 Este paso "abre las puertas" de Ollama para que la interfaz web pueda entrar.
