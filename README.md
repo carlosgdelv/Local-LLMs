@@ -118,22 +118,44 @@ ollama pull qwen2.5:14b-instruct-q5_K_M
  ```bash
 ollama pull nomic-embed-text
 ```
- ```bash
+El modelo por defecto de Open WebUI (all-MiniLM-L6-v2) es un Transformer diminuto basado en BERT que ocupa apenas 90 MB de RAM.
+
+
+
 ### 🛑 Paso 0: Purgar Ollama (Liberar el puerto 11434)
 
 Si tienes Ollama corriendo como servicio de Systemd, se quedará con el puerto. Hay que tumbarlo y desactivarlo:
+ ```bash
+# 1. Detener y deshabilitar el servicio del sistema
 sudo systemctl stop ollama
 sudo systemctl disable ollama
 
+# 2. Eliminar el archivo del servicio y recargar el demonio de Systemd
+sudo rm -f /etc/systemd/system/ollama.service
+sudo systemctl daemon-reload
+
+# 3. Eliminar el ejecutable de Ollama
+sudo rm -f $(which ollama)
+
+# 4. Borrar los pesos de modelos y metadatos residuales
+sudo rm -rf /usr/share/ollama
+sudo rm -rf ~/.ollama
+
+# 5. Eliminar el usuario y grupo operativo de Ollama
+sudo userdel ollama
+sudo groupdel ollama
+```
 ### 🛠️ Paso 1: Instalar las Herramientas de Compilación en Ubuntu
 Necesitamos los compiladores de C/C++ optimizados de GNU y la herramienta CMake:
+ ```bash
 sudo apt update
 sudo apt install -y build-essential cmake git curl wget
+```
 
 ### 🏗️ Paso 2: Clonar y Compilar llama.cpp de Forma Nativa
-Vamos a descargar el código fuente y le ordenaremos al compilador GCC que analice tu i7 de 14ª generación (-march=native) para activar por hardware las instrucciones AVX2 y VNNI (inteligencia artificial integrada en Intel).
-
-# 1. Clonar el repositorio oficial
+ Clonar el repositorio oficial
+ 
+ ```bash
 git clone https://github.com/ggerganov/llama.cpp
 cd llama.cpp
 
@@ -148,40 +170,44 @@ cmake .. -DCMAKE_BUILD_TYPE=Release \
 
 # 4. Compilar usando todos los núcleos de tu procesador (tardará un par de minutos)
 cmake --build . --config Release --parallel $(nproc)
-
+```
 Al terminar, dentro de la carpeta llama.cpp/build/bin/ tendrás el Santo Grial: el binario ejecutable llama-server optimizado al milímetro para tu silicio.
 
 ### 📂 Paso 3: Descargar el Modelo en Formato GGUF Manualmente
-Ollama gestiona los modelos en una ruta interna oculta. Para usar llama.cpp puro, nos bajamos el archivo .gguf directamente desde Hugging Face usando wget. Vamos a descargar la versión de 14B en Q5_K_M que acordamos:
 
-# Volvemos a la raíz o a tu carpeta de Documentos
+Volvemos a la raíz o a tu carpeta de Documentos
+```bash
 cd ~/Documentos
 mkdir -p modelos && cd modelos
 
 # Descargar Qwen 2.5 14B Instruct en cuantización de 5 bits
-wget https://huggingface.co/Qwen/Qwen2.5-14B-Instruct-GGUF/resolve/main/qwen2.5-14b-instruct-q5_k_m.gguf
+wget https://huggingface.co/bartowski/Qwen2.5-14B-Instruct-GGUF/resolve/main/Qwen2.5-14B-Instruct-Q5_K_M.gguf
+```
 
-### 🚀 Paso 4: Lanzar el Servidor Nativo
-Ahora arrancamos el microservicio de inferencia. Usaremos los parámetros de élite que calculamos: fijamos los contextos a 16k, limitamos los hilos a tus 8 núcleos rápidos (P-Cores) y lo ponemos a escuchar en el puerto 11434.
+### 🚀 Paso 4: Lanzar el Servidor Nativo de Inferencia
+
 # Ejecuta esto desde la carpeta donde compilaste el binario
+```bash
 cd ~/llama.cpp/build/bin
 
 # Lanzar el servidor
-./llama-server -m ~/Documentos/modelos/qwen2.5-14b-instruct-q5_k_m.gguf \
-               -c 16384 \
-               -t 8 \
-               --host 0.0.0.0 \
-               --port 11434 \
-               --embedding
-### ⚙️ Paso 5: Adaptar tu Comando de Docker de Open WebUI
-omo llama.cpp clona la API de OpenAI, tenemos que decirle a Open WebUI que en lugar de buscar un servidor de Ollama, busque un servidor compatible con OpenAI en el puerto 11434.
+./llama-server -m ~/modelos/Qwen2.5-14B-Instruct-Q5_K_M.gguf -c 16384 -t 8 --host 0.0.0.0 --port 11434
+```
+Deja esta terminal abierta. Para verificar que responde, en otra terminal:
 
-Detén tu contenedor actual y lánzalo con estas variables de entorno modificadas (OPENAI_API_BASE_URL):
+```bash
+curl http://localhost:11434/v1/models
+```
 
-docker stop open-webui
-docker rm open-webui
+### ⚙️ Paso 5: Lanzar la Interfaz (Open WebUI en Modo OpenAI API)
 
-docker run -d -p 3000:8080 \
+```bash
+sudo docker stop open-webui
+sudo docker rm open-webui
+
+sudo docker pull ghcr.io/open-webui/open-webui:main
+
+sudo docker run -d -p 3000:8080 \
   --add-host=host.docker.internal:host-gateway \
   -e OPENAI_API_BASE_URL=http://host.docker.internal:11434/v1 \
   -e OPENAI_API_KEY=not_needed \
@@ -191,65 +217,15 @@ docker run -d -p 3000:8080 \
   --name open-webui \
   ghcr.io/open-webui/open-webui:main
 ```
+### ✅ Paso 6: Configuración Inicial en Pantalla
+- Abre tu navegador e ingresa a http://localhost:3000 y crea tu cuenta de Administrador.
+- Ve a Ajustes > Conexiones, desactiva Ollama por completo.
+- En el apartado OpenAI API, pon la URL: http://host.docker.internal:11434/v1 y haz clic en Refrescar (círculo verde = OK).
+- Ve a Ajustes > Documentos, y en Embedding Engine selecciona "WebUI (Transformers)" para procesar los embeddings del RAG de forma local interna y ahorrar RAM
+- Clic en Refrescar → círculo verde = conexión OK
 
-## ⚙️ Paso 3: Configuración de Red (Acceso Local/Privado)
-Este paso "abre las puertas" de Ollama para que la interfaz web pueda entrar.
-1. Crear regla de acceso:
- ```bash
-sudo mkdir -p /etc/systemd/system/ollama.service.d/
-echo -e "[Service]\nEnvironment=\"OLLAMA_HOST=0.0.0.0\"\nEnvironment=\"OLLAMA_ORIGINS=*\"" | sudo tee /etc/systemd/system/ollama.service.d/override.conf
-```
-2. Reiniciar el motor:Para que los cambios surtan efecto
-```bash
-sudo systemctl daemon-reload
-sudo systemctl restart ollama
-```
 
-## ⚙️ Paso 4: Lanzar la Interfaz (Open WebUI)
 
-Ahora que la red está lista, levantamos la interfaz visual con Docker.
-
-```bash
-docker run -d -p 3000:8080 --add-host=host.docker.internal:host-gateway -v open-webui:/app/backend/data --name open-webui ghcr.io/open-webui/open-webui:main
-```
-Configuración Inicial:
-Accede a `http://localhost:3000` y crea tu cuenta de Administrador.
-
-Ve a Ajustes > Conexiones.
-
-Verifica que la URL sea: `[http://host.docker.internal:11434](http://host.docker.internal:11434)`
-
-Haz clic en el icono de Refrescar. El círculo verde confirma la conexión.
-
-Ejecuta esto en tu terminal para asegurarte de tener la última versión que corrige estos fallos de compatibilidad:
-
-```bash
-docker pull ghcr.io/open-webui/open-webui:main
-```
-Detén y elimina el contenedor actual (no borra tus datos si usas volúmenes):
-
-```bash
-docker stop open-webui
-docker rm open-webui
-```
-Verificar versión (El método que no falla)
-```bash
-docker logs open-webui | grep "v"
-```
-Como poner para que WebUI permita importar documentacion. Ejemplo de 5 horas
-
-```bash
-docker stop open-webui
-docker rm open-webui
-
-docker run -d -p 3000:8080 \
-  --add-host=host.docker.internal:host-gateway \
-  -e WEBUI_TIMEOUT=18000 \
-  -e GUNICORN_TIMEOUT=18000 \
-  -v open-webui:/app/backend/data \
-  --name open-webui \
-  ghcr.io/open-webui/open-webui:main
-```
 
 ##  📂 Paso 5: Monitoreo de Hardware:
 
