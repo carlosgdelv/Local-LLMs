@@ -116,7 +116,7 @@ ollama pull qwen2.5:14b-instruct-q5_K_M
 2. Motor de Embeddings (Obligatorio para RAG):
 
  ```bash
-ollama pull nomic-embed-text
+nomic-ai/nomic-embed-text-v1.5
 ```
 El modelo por defecto de Open WebUI (all-MiniLM-L6-v2) es un Transformer diminuto basado en BERT que ocupa apenas 90 MB de RAM.
 
