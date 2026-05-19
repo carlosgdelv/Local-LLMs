@@ -183,8 +183,8 @@ Volvemos a la raíz o a tu carpeta de Documentos
 cd ~/Documentos
 mkdir -p modelos && cd modelos
 
-# Descargar Qwen 2.5 14B Instruct en cuantización de 5 bits
-wget https://huggingface.co/bartowski/Qwen2.5-14B-Instruct-GGUF/resolve/main/Qwen2.5-14B-Instruct-Q5_K_M.gguf
+# Descargar Qwen 2.5 14B Instruct en cuantización de 4 bits
+wget https://huggingface.co/bartowski/Qwen2.5-7B-Instruct-GGUF/resolve/main/Qwen2.5-7B-Instruct-Q4_K_M.gguf
 ```
 
 ### 🚀 Paso 4: Lanzar el Servidor Nativo de Inferencia
@@ -194,7 +194,7 @@ wget https://huggingface.co/bartowski/Qwen2.5-14B-Instruct-GGUF/resolve/main/Qwe
 cd ~/llama.cpp/build/bin
 
 # Lanzar el servidor
-./llama-server -m ~/modelos/Qwen2.5-14B-Instruct-Q5_K_M.gguf -c 16384 -t 6 --host 0.0.0.0 --port 11434
+./llama-server -m ~/modelos/Qwen2.5-14B-Instruct-Q4_K_M.gguf -c 4096 -t 6 --host 0.0.0.0 --port 11434
 ```
 Deja esta terminal abierta. Para verificar que responde, en otra terminal:
 
@@ -365,11 +365,9 @@ num_ctx: 16384
 Motor para la Extracción de Contenido (Convierte PDFs en Markdown estructural): Docling
 Parámetros:
 {
-  "do_ocr": true,
-  "do_table_structure": true,
-  "detailed_structure": true,
-  "ocr_engine": "tesseract",
-  "pdf_backend": "dlce"
+  "do_ocr": false,
+  "do_table_structure": false,
+  "pdf_backend": "docling_parse"
 }
 
 - do_ocr: Lee texto dentro de imágenes; activado permite procesar escaneos, desactivado ignora fotos y ahorra tiempo.
