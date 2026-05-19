@@ -194,7 +194,7 @@ wget https://huggingface.co/bartowski/Qwen2.5-14B-Instruct-GGUF/resolve/main/Qwe
 cd ~/llama.cpp/build/bin
 
 # Lanzar el servidor
-./llama-server -m ~/modelos/Qwen2.5-14B-Instruct-Q5_K_M.gguf -c 16384 -t 8 --host 0.0.0.0 --port 11434
+./llama-server -m ~/modelos/Qwen2.5-14B-Instruct-Q5_K_M.gguf -c 16384 -t 6 --host 0.0.0.0 --port 11434
 ```
 Deja esta terminal abierta. Para verificar que responde, en otra terminal:
 
