@@ -104,13 +104,18 @@ Descarga de Modelos Estratégicos
 Ejecuta estos comandos para descargar los modelos optimizados para ejecución en CPU:
 
 1. Razonamiento General:
+
 ```bash
-ollama pull qwen2.5:14b-instruct-q4_K_M
+cd ~/modelos
+```
+
+```bash
+wget https://huggingface.co/bartowski/Qwen2.5-7B-Instruct-GGUF/resolve/main/Qwen2.5-7B-Instruct-Q4_K_M.gguf
 ```
 o
 
  ```bash
-ollama pull qwen2.5:14b-instruct-q5_K_M
+wget https://huggingface.co/bartowski/microsoft_Phi-4-mini-instruct-GGUF/resolve/main/microsoft_Phi-4-mini-instruct-Q4_K_M.gguf
 ```
 
 2. Motor de Embeddings (Obligatorio para RAG):
@@ -194,8 +199,24 @@ wget https://huggingface.co/bartowski/Qwen2.5-7B-Instruct-GGUF/resolve/main/Qwen
 cd ~/llama.cpp/build/bin
 
 # Lanzar el servidor
-./llama-server -m ~/modelos/Qwen2.5-14B-Instruct-Q4_K_M.gguf -c 4096 -t 6 --host 0.0.0.0 --port 11434
+./llama-server -m ~/modelos/microsoft_Phi-4-mini-instruct-Q4_K_M.gguf \
+               -c 4096 \
+               -t 6 \
+               --host 0.0.0.0 \
+               --port 11434 \
+               --embedding
 ```
+o
+```bash
+./llama-server -m ~/modelos/Qwen2.5-7B-Instruct-Q4_K_M.gguf \
+               -c 4096 \
+               -t 6 \
+               --host 0.0.0.0 \
+               --port 11434 \
+               --embedding
+```
+
+
 Deja esta terminal abierta. Para verificar que responde, en otra terminal:
 
 ```bash
