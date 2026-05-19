@@ -201,7 +201,7 @@ cd ~/llama.cpp/build/bin
                -tb 4 \
                -b 128 \
                --host 0.0.0.0 \
-               --port 11434 \
+               --port 11434 
 ```
 o
 ```bash
