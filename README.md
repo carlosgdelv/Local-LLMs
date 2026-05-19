@@ -94,41 +94,11 @@ IMPORTANTE: Después de este comando, cierra la terminal y ábrela de nuevo (o r
 
 ## 🛠️ Paso 2: Instalación de Ollama (El Motor)
 
-Instala el motor de inferencia con el script oficial:
+Version 1.0 sin compilación. Instala el motor de inferencia con el script oficial:
 
 ```bash
 curl -fsSL https://ollama.com/install.sh | sh
 ```
-Descarga de Modelos Estratégicos
-
-Ejecuta estos comandos para descargar los modelos optimizados para ejecución en CPU:
-
-1. Razonamiento General:
-
-```bash
-cd ~/modelos
-```
-
-```bash
-wget https://huggingface.co/bartowski/Qwen2.5-7B-Instruct-GGUF/resolve/main/Qwen2.5-7B-Instruct-Q4_K_M.gguf
-```
-o
-
- ```bash
-wget https://huggingface.co/bartowski/microsoft_Phi-4-mini-instruct-GGUF/resolve/main/microsoft_Phi-4-mini-instruct-Q4_K_M.gguf
-```
-
-2. Motor de Embeddings (Obligatorio para RAG):
-
- ```bash
-nomic-ai/nomic-embed-text-v1.5
-```
-Modelo de Reclasificación
- ```bash
-BAAI/bge-reranker-v2-m3
-```
-
-
 
 ### 🛑 Paso 0: Purgar Ollama (Liberar el puerto 11434)
 
@@ -188,8 +158,29 @@ Volvemos a la raíz o a tu carpeta de Documentos
 cd ~/Documentos
 mkdir -p modelos && cd modelos
 
-# Descargar Qwen 2.5 14B Instruct en cuantización de 4 bits
+1. Razonamiento General:
+
+```bash
+cd ~/modelos
+```
+
+```bash
 wget https://huggingface.co/bartowski/Qwen2.5-7B-Instruct-GGUF/resolve/main/Qwen2.5-7B-Instruct-Q4_K_M.gguf
+```
+o
+
+ ```bash
+wget https://huggingface.co/bartowski/microsoft_Phi-4-mini-instruct-GGUF/resolve/main/microsoft_Phi-4-mini-instruct-Q4_K_M.gguf
+```
+
+2. Motor de Embeddings (Obligatorio para RAG):
+
+ ```bash
+nomic-ai/nomic-embed-text-v1.5
+```
+Modelo de Reclasificación
+ ```bash
+BAAI/bge-reranker-v2-m3
 ```
 
 ### 🚀 Paso 4: Lanzar el Servidor Nativo de Inferencia
