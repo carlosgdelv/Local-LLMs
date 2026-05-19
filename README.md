@@ -270,11 +270,21 @@ sudo apt install -y nvtop && nvtop
 btop
 ```
 Análisis por un posible Throttling Térmico
+
+```bash
+sudo apt update
+sudo apt install lm-sensors
+```
+
 ```bash
 # Pon esto en una terminal siempre que uses llama-server
 watch -n 1 "sensors | grep 'Package' && grep MHz /proc/cpuinfo | sort -t: -k2 -rn | head -3"
 ```
 Te muestra simultáneamente la temperatura Y los 3 núcleos más rápidos. Si la temperatura está por debajo de 80°C y hay núcleos a 4000+ MHz → todo perfecto. Si la temperatura supera 85°C y todos están a 800 → throttling.
+
+
+
+
 ## 1. Configurar los permisos (OLLAMA_ORIGINS)
 Abre una terminal y ejecuta el siguiente comando para editar la configuración del servicio:
 
@@ -308,10 +318,19 @@ echo -e "[Service]\nEnvironment=\"OLLAMA_HOST=0.0.0.0\"\nEnvironment=\"OLLAMA_OR
 
 
 
-Instalación del motor Docling-Serve:
+ Instalación de dependencias del sistema
+
+ Actualiza los repositorios e instala el gestor de paquetes de Python y las herramientas de entornos virtuales necesarias en Ubuntu.
 ```bash
-sudo pip install docling-serve
+sudo apt update && sudo apt install -y python3-pip python3-venv pstree psmisc
 ```
+
+El problema es que el paquete pstree no existe con ese nombre en Ubuntu (en realidad viene dentro de otro paquete llamado psmisc que ya habías puesto en la lista).
+
+```bash
+sudo apt install -y python3-pip python3-venv psmisc
+```
+
 Instalación de dependencias del sistema:
 
 ```bash
@@ -328,15 +347,20 @@ source docling_env/bin/activate
 Instalar Docling-Serve
 
 ```bash
-source docling_env/bin/activate
+pip install docling-serve
 ```
 Entrar a mi sesion  de Docling una vez instalado
 ```bash
 source /home/carlos/docling_env/bin/activate
 ```
-Lanzamiento del servidor
 ```bash
-docling-serve run --host 0.0.0.0 --port 5001
+# Primero matamos el proceso actual si sigue vivo
+fuser -k 5001/tcp
+```
+Lanzamiento del servido
+
+```bash
+docling-serve run --host 0.0.0.0 --port 5001 --timeout-keep-alive 18000
 ```
 Arranca el microservicio en el puerto 5001, permitiendo que tu Asistente CAST procese documentos de forma local y privada.
 
@@ -352,14 +376,8 @@ Version del Docling
 source /home/carlos/docling_env/bin/activate && pip show docling-serve
 ```
 
-Necesitamos lanzar Docling con un tiempo de espera igual de largo  que WebUI. Usa este comando en tu terminal de docling_env:
-```bash
-# Primero matamos el proceso actual si sigue vivo
-fuser -k 5001/tcp
 
-# Lanzamos con timeout de 5 horas (18000 segundos)
-docling-serve run --host 0.0.0.0 --port 5001 --timeout-keep-alive 18000
-```
+
 ### Convertir archivo .PDF en archi .md en Docling
 
 ```bash
