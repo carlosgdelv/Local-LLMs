@@ -369,20 +369,34 @@ source /home/carlos/docling_env/bin/activate && pip show docling-serve
 
 
 
-### Convertir archivo .PDF en archi .md en Docling
+# Convertir archivo .PDF en archi .md en Docling
+
+🥇 Opción 1 — PDF consolidado directo "(LA MEJOR)"
+
+Descarga el PDF oficial y súbelo directamente a Open WebUI sin pasar por Docling ni conversiones intermedias:
+```bash
+wget https://www.boe.es/buscar/pdf/2017/BOE-A-2017-12902-consolidado.pdf \
+     -O ~/Documentos/LCSP_2017_consolidada.pdf
+```
+/home/carlos/Documentos/LCSP_2017_consolidada.pdf
+Luego en Open WebUI: Espacio de Trabajo → Conocimiento → Nueva Colección → Subir archivo
+
+🥈 Opción 2 — Conversión a Markdown con Docling primero
+Conviertes el PDF a Markdown con Docling y subes el .md:
 
 ```bash
-cd Documentos
-```
-Ejecutar el comando de conversión
-```bash
-docling --to md "BOE-A-2017-12902-consolidado (1).pdf"
-```
-Para buscar el archivo, dentro de Documentos
-```bash
-ls -lh *.md
+source /home/carlos/docling_env/bin/activate
 ```
 
+Solución — Lanza Docling desactivando OCR explícitamente
+
+
+```bash
+docling --to md \
+        --no-ocr \
+        --pdf-backend docling_parse \
+        "LCSP_2017_consolidada.pdf"
+```
 
 ##  Plantilla LLM (Cerebro)
 K: 15
