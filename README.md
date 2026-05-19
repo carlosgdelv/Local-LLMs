@@ -366,8 +366,16 @@ Version del Docling
 ```bash
 source /home/carlos/docling_env/bin/activate && pip show docling-serve
 ```
+http://host.docker.internal:5001
 
-
+Parámetros
+```bash
+{
+  "do_ocr": false,
+  "do_table_structure": false,
+  "pdf_backend": "docling_parse"
+}
+```
 
 # Convertir archivo .PDF en archi .md en Docling
 
