@@ -191,7 +191,7 @@ cd ~/llama.cpp/build/bin
 
 # Lanzar el servidor
 ./llama-server -m ~/modelos/microsoft_Phi-4-mini-instruct-Q4_K_M.gguf \
-               -c 4096 \
+               -c 16384 \
                -t 6 \
                --host 0.0.0.0 \
                --port 11434 \
@@ -200,7 +200,7 @@ cd ~/llama.cpp/build/bin
 o
 ```bash
 ./llama-server -m ~/modelos/Qwen2.5-7B-Instruct-Q4_K_M.gguf \
-               -c 4096 \
+               -c 16384 \
                -t 6 \
                --host 0.0.0.0 \
                --port 11434 \
