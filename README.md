@@ -269,8 +269,12 @@ sudo apt install -y nvtop && nvtop
 ```bash
 btop
 ```
-
-
+Análisis por un posible Throttling Térmico
+```bash
+# Pon esto en una terminal siempre que uses llama-server
+watch -n 1 "sensors | grep 'Package' && grep MHz /proc/cpuinfo | sort -t: -k2 -rn | head -3"
+```
+Te muestra simultáneamente la temperatura Y los 3 núcleos más rápidos. Si la temperatura está por debajo de 80°C y hay núcleos a 4000+ MHz → todo perfecto. Si la temperatura supera 85°C y todos están a 800 → throttling.
 ## 1. Configurar los permisos (OLLAMA_ORIGINS)
 Abre una terminal y ejecuta el siguiente comando para editar la configuración del servicio:
 
