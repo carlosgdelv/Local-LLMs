@@ -172,6 +172,11 @@ o
  ```bash
 wget https://huggingface.co/bartowski/microsoft_Phi-4-mini-instruct-GGUF/resolve/main/microsoft_Phi-4-mini-instruct-Q4_K_M.gguf
 ```
+o
+Micro-Modelo de consumo mínimo Qwen 2.5 1.5B Instruct (Q4_K_M)
+ ```bash
+wget https://huggingface.co/bartowski/Qwen2.5-1.5B-Instruct-GGUF/resolve/main/Qwen2.5-1.5B-Instruct-Q4_K_M.gguf
+```
 
 2. Motor de Embeddings (Obligatorio para RAG):
 
@@ -193,18 +198,20 @@ cd ~/llama.cpp/build/bin
 ./llama-server -m ~/modelos/microsoft_Phi-4-mini-instruct-Q4_K_M.gguf \
                -c 16384 \
                -t 6 \
+               -tb 4 \
+               -b 128 \
                --host 0.0.0.0 \
                --port 11434 \
-               --embedding
 ```
 o
 ```bash
 ./llama-server -m ~/modelos/Qwen2.5-7B-Instruct-Q4_K_M.gguf \
                -c 16384 \
                -t 6 \
+               -tb 4 \
+               -b 128 \
                --host 0.0.0.0 \
-               --port 11434 \
-               --embedding
+               --port 11434
 ```
 
 
