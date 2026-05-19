@@ -218,8 +218,10 @@ sudo docker run -d -p 3000:8080 \
   --add-host=host.docker.internal:host-gateway \
   -e OPENAI_API_BASE_URL=http://host.docker.internal:11434/v1 \
   -e OPENAI_API_KEY=not_needed \
-  -e WEBUI_TIMEOUT=18000 \
-  -e GUNICORN_TIMEOUT=18000 \
+  -e WEBUI_TIMEOUT=36000 \
+  -e GUNICORN_TIMEOUT=36000 \
+  -e AIOHTTP_CLIENT_TIMEOUT=36000 \
+  -e AIOHTTP_CLIENT_TIMEOUT_OPENAI_MODEL_LIST=36000 \
   -v open-webui:/app/backend/data \
   --name open-webui \
   ghcr.io/open-webui/open-webui:main
