@@ -221,8 +221,19 @@ Deja esta terminal abierta. Para verificar que responde, en otra terminal:
 curl http://localhost:11434/v1/models
 ```
 Comando de apagado limpio
+
 ```bash
 pkill llama-server
+```
+Verificación
+
+```bash
+pgrep -a llama-server
+```
+Matarlo
+
+```bash
+kill -9 "527998"
 ```
 
 ### ⚙️ Paso 5: Lanzar la Interfaz (Open WebUI en Modo OpenAI API)
